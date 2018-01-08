@@ -11,16 +11,15 @@ import com.nrm.GLEngine3D.GameObject.GameObject;
 
 public class GameObjectBox extends GameObject {
 	private AudioSource src = new AudioSource();
-	public GameObjectBox(Vector2f pos, Vector3f rot, int lay) {
-		super(pos,rot,lay);
+	public GameObjectBox(Vector3f pos, Vector3f rot) {
+		super(pos,rot);
 		this.src.setBuffer(1);
 		
 	}
-	public GameObjectBox(Vector2f pos,Vector3f rot,Vector2f s,int lay){
+	public GameObjectBox(Vector3f pos,Vector3f rot,Vector3f s){
 		this.position = pos;
 		this.rotation = rot;
 		this.size = s;
-		this.layer = lay;
 		this.src.setBuffer(1);
 	}
 	public GameObjectBox(){
@@ -30,8 +29,11 @@ public class GameObjectBox extends GameObject {
 	
 	public void render() {
 		GL11.glPushMatrix();
-		GL11.glTranslatef(this.position.x,this.position.y,this.layer);
-		GL11.glRotatef(this.rotation.x, 0, 0, 1);
+		GL11.glTranslatef(this.position.x,this.position.y,this.position.z);
+		GL11.glRotatef(this.rotation.x, 1, 0, 0);
+		GL11.glRotatef(this.rotation.y, 0, 1, 0);
+		GL11.glRotatef(this.rotation.z, 0, 0, 1);
+		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, Main.engine.textureManager.getTextureID("color"));
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(1f, 0f);
@@ -49,12 +51,11 @@ public class GameObjectBox extends GameObject {
 	public void update(){
 		tick++;
 		if(tick%120==0){
-			src.play();
+			//src.play();
 		}
-		this.src.setPosition(this.position);
+		//this.src.setPosition(this.position);
 		//this.position.x = (float) (Math.sin(tick/100.0f))*10;
 		//this.position.y = (float) (Math.cos(tick/1.0f))*10;
 		//this.rotation.x=tick;
-		this.layer = 20;
 	}
 }
