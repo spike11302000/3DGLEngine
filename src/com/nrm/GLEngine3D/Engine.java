@@ -1,14 +1,13 @@
 package com.nrm.GLEngine3D;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.glu.GLU;
 import static org.lwjgl.opengl.GL11.*;
 import java.util.ArrayList;
-
 import com.nrm.GLEngine3D.Audio.AudioManager;
 import com.nrm.GLEngine3D.GameObject.Camera;
 import com.nrm.GLEngine3D.GameObject.GameObject;
 import com.nrm.GLEngine3D.Texture.TextureManager;
-
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 
 public class Engine extends Thread {
@@ -22,11 +21,13 @@ public class Engine extends Thread {
 	private int fbo;
 	private int depthbuffer;
 	private int fb_texture;
-
-	public Engine(int width, int height, String title) {
+	private EngineType engtype;
+	
+	public Engine(int width, int height,EngineType type ,String title) {
 		this.w = width;
 		this.h = height;
 		this.t = title;
+		this.engtype = type;
 	}
 
 	public void run() {
@@ -88,8 +89,9 @@ public class Engine extends Thread {
 		this.audioManager.registerAudio();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-this.ActiveCam.getZoom(), this.ActiveCam.getZoom(), -this.ActiveCam.getZoom(),
-				this.ActiveCam.getZoom(), -100, 100);
+		GLU.gluPerspective(90f, Display.getWidth()/Display.getHeight(), 0f, 2000f);
+		//glOrtho(-this.ActiveCam.getZoom(), this.ActiveCam.getZoom(), -this.ActiveCam.getZoom(),
+		//		this.ActiveCam.getZoom(), -100, 100);
 		glMatrixMode(GL_MODELVIEW);
 		
 	}
@@ -99,7 +101,7 @@ public class Engine extends Thread {
 
 		glPushAttrib(GL_VIEWPORT_BIT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTranslatef(-this.ActiveCam.position.x, -this.ActiveCam.position.y, 0);
+		//glTranslatef(-this.ActiveCam.position.x, -this.ActiveCam.position.y, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (GameObject GameObj : GameObjects) {
 			GameObj.render();

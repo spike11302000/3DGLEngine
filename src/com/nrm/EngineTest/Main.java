@@ -1,10 +1,11 @@
 package com.nrm.EngineTest;
 
 import com.nrm.GLEngine3D.Engine;
+import com.nrm.GLEngine3D.EngineType;
 import com.nrm.GLEngine3D.GameObject.Camera;
 
 public class Main {
-	public static Engine engine = new Engine(640, 480, "engine test");
+	public static Engine engine = new Engine(640, 480,EngineType.ENGINE_3D, "engine test");
 	public static Camera camera = new Camera(1);
 	public static int ooff;
 
@@ -18,10 +19,12 @@ public class Main {
 		ooff = engine.audioManager.loadSound("ooff.wav", "test");
 		camera.setZoom(2);
 		//engine.add(new GameObjectCircle());
-		engine.add(new GameObjectBox());
-		//for (int i = 0; i < 100; i++) {
-		//	engine.add(new GameObjectBox());
-		//}
+		//engine.add(new GameObjectBox());
+		for (int i = 0; i < 100; i++) {
+			GameObjectBox box = new GameObjectBox();
+			box.position.setZ(-i);
+			engine.add(box);
+		}
 
 	}
 }
